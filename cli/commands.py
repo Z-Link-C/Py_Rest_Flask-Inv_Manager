@@ -1,18 +1,21 @@
 import sys
-from main.app.services.inventory_service import (
-    add_product, get_all, update_product, delete_product
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from app.services.inventory_service import (
+    add_product, get_all,get_one, update_product, delete_product
 )
-from main.app.services.off_service import search_product
-def search(code):
-    prod=search_product(code)
+from app.services.off_service import search_product
+def search(id):
+    prod=search_product(id)
     print(prod if prod else "Product not found")
-def add(code,price,stock):
-    prod,err=add_product(code,float(price),int(stock))
+def add(id,price,stock):
+    prod,err=add_product(id,float(price),int(stock))
     print(err if err else f"Added: {prod}")
     pass
-def update(code,price=None,stock=None):
+def update(id,price=None,stock=None):
     print(update_product(
-        code,
+        id,
         float(price) if price else None,
         int(stock) if stock else None
     ))
@@ -20,8 +23,15 @@ def view():
     prod=get_all()
     for p in prod:
         print(p)
-def delete(code):
-    pass
+
+def view_one(id):
+    prod=get_one(id)
+    print(prod if prod else f"Product {id} not found")
+
+def delete(id):
+    _,err=delete_product(id)
+    print(err if err else f"Deleted product {id}")
+
 def main():
     args=sys.argv[1:]
     if not args:
@@ -31,21 +41,24 @@ def main():
     match cmd.lower():
         case "search" if len(args)==2:
             search(args[1])
-            pass
+            
         case "add" if len(args)==4:
             add(args[1],args[2],args[3])
-            pass        
-        case "view":
+                    
+        case "view" if len(args)==1:
             view()
-            pass
+            
+        case "view" if len(args)==2:
+            view_one()
+            
         case "update" if len(args)>=3:
             price=args[2] if len(args)>2 else None
             stock=args[3] if len(args)>3 else None
             update(args[1],price,stock)
-            pass
+            
         case "delete" if len(args)==2:
             delete(args[1])
-            pass
+            
         case _:
             print("Commands:")
             print("  search <barcode>")
