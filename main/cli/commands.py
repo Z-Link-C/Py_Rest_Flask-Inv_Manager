@@ -1,8 +1,8 @@
 import sys
-from app.services.inventory_service import (
+from main.app.services.inventory_service import (
     add_product, get_all, update_product, delete_product
 )
-from app.services.off_service import search_product
+from main.app.services.off_service import search_product
 def search(code):
     prod=search_product(code)
     print(prod if prod else "Product not found")
