@@ -14,10 +14,11 @@ def search(id):
     print(f"Name: {prod.get('product_name','N/A')}")
     print(f"Brand: {prod.get('brands','N/A')}")
     print(f"Barcode: {prod.get('code','N/A')}")
+
 def add(id,price,stock):
     prod,err=add_product(id,float(price),int(stock))
     print(err if err else f"Added: {prod}")
-    pass
+    
 def update(id,price=None,stock=None):
     print(update_product(
         id,
@@ -69,8 +70,8 @@ def main():
             print("  search <barcode>")
             print("  add <barcode> <price> <stock>")
             print("  view")
-            print("  update <barcode> <price> <stock>")
-            print("  delete <barcode>")
+            print("  update <id> <price> <stock>")
+            print("  delete <id>")
 
 if __name__ == "__main__":
     main()

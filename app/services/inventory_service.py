@@ -11,7 +11,7 @@ def get_one(id):
     return next((p for p in db if p["id"] == int(id)), None)
 
 def add_product(code, price, stock):
-    prod = search_product()
+    prod = search_product(code)
     if not prod:
         return None,"product not found"
     n_id = max((p["id"] for p in db),default=0)+1
