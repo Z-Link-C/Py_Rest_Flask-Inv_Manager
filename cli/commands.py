@@ -8,7 +8,12 @@ from app.services.inventory_service import (
 from app.services.off_service import search_product
 def search(id):
     prod=search_product(id)
-    print(prod if prod else "Product not found")
+    if not prod:
+        print("product not found on open food facts")
+        return
+    print(f"Name: {prod.get('product_name','N/A')}")
+    print(f"Brand: {prod.get('brands','N/A')}")
+    print(f"Barcode: {prod.get('code','N/A')}")
 def add(id,price,stock):
     prod,err=add_product(id,float(price),int(stock))
     print(err if err else f"Added: {prod}")
@@ -49,7 +54,7 @@ def main():
             view()
             
         case "view" if len(args)==2:
-            view_one()
+            view_one(args[1])
             
         case "update" if len(args)>=3:
             price=args[2] if len(args)>2 else None
